@@ -1,3 +1,4 @@
+# Bloque 1 - Etapa 2: Revisión y Refactor de Código - parte B
 ## Descripción breve
 
 Servicio de gestión de checkpoints implementado en NestJS, con arquitectura limpia, validación robusta, idempotencia y separación por capas (dominio, aplicación, infraestructura, presentación) para garantizar escalabilidad, mantenibilidad y seguridad.
