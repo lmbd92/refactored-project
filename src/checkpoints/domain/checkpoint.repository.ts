@@ -6,3 +6,4 @@ export interface CheckpointRepository {
   existsByIdempotencyKey(key: string): Promise<boolean>;
   registerIdempotencyKey?(key: string): Promise<void>;
 }
+export const CHECKPOINT_REPOSITORY = Symbol('CheckpointRepository');

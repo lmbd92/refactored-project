@@ -1,13 +1,18 @@
 // checkpoints/application/services/create-checkpoint.service.ts
-import { Injectable, ConflictException } from '@nestjs/common';
-import type { CheckpointRepository } from '../../domain/checkpoint.repository';
+import { Inject, Injectable, ConflictException } from '@nestjs/common';
+import {
+  CHECKPOINT_REPOSITORY,
+  type CheckpointRepository,
+} from '../../domain/checkpoint.repository';
 import { Checkpoint } from '../../domain/checkpoint.entity';
 import { CreateCheckpointDto } from '../dto/create-checkpoint.dto';
 import { randomUUID } from 'crypto';
 
 @Injectable()
 export class CreateCheckpointService {
-  constructor(private readonly repo: CheckpointRepository) {}
+  constructor(
+    @Inject(CHECKPOINT_REPOSITORY) private readonly repo: CheckpointRepository,
+  ) {}
 
   async execute(
     dto: CreateCheckpointDto,

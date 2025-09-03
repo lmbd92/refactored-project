@@ -21,7 +21,8 @@ export class InMemoryCheckpointRepository implements CheckpointRepository {
     return await Promise.resolve(this.idempotencyKeys.has(key));
   }
 
-  registerIdempotencyKey(key: string) {
+  async registerIdempotencyKey(key: string): Promise<void> {
     this.idempotencyKeys.add(key);
+    return Promise.resolve();
   }
 }
