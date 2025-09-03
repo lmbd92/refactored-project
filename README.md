@@ -1,3 +1,7 @@
+## Descripción breve
+
+Servicio de gestión de checkpoints implementado en NestJS, con arquitectura limpia, validación robusta, idempotencia y separación por capas (dominio, aplicación, infraestructura, presentación) para garantizar escalabilidad, mantenibilidad y seguridad.
+
 ## Características principales
 
 - Separación en capas (dominio, aplicación, infraestructura, presentación).
@@ -66,20 +70,20 @@ npm run start:dev
 
 **Principios aplicados**
 
-* SOLID: SRP (casos de uso aislados), DIP (interfaces en dominio, inyección de dependencias).
+- SOLID: SRP (casos de uso aislados), DIP (interfaces en dominio, inyección de dependencias).
 
-* Clean Architecture: dominio puro sin dependencias de framework, infraestructura reemplazable.
+- Clean Architecture: dominio puro sin dependencias de framework, infraestructura reemplazable.
 
-* Clean Code: nombres claros, validación estricta, DTOs bien definidos.
+- Clean Code: nombres claros, validación estricta, DTOs bien definidos.
 
-* Idempotencia y seguridad: evita duplicados y entradas inválidas.
+- Idempotencia y seguridad: evita duplicados y entradas inválidas.
 
 **Próximos pasos**
 
-* Integrar base de datos real (PostgreSQL/MySQL/MongoDB).
+- Integrar base de datos real (PostgreSQL/MySQL/MongoDB).
 
-* Implementar transacciones con TypeORM/Prisma en persistencia.
+- Implementar transacciones con TypeORM/Prisma en persistencia.
 
-* Añadir paginación y filtros en los listados.
+- Añadir paginación y filtros en los listados.
 
-* Autenticación y autorización con JWT/OAuth2.
+- Autenticación y autorización con JWT/OAuth2.
