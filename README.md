@@ -1,98 +1,85 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+## Características principales
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+- Separación en capas (dominio, aplicación, infraestructura, presentación).
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+- Inyección de dependencias (DI) para desacoplar servicios y repositorios.
 
-## Description
+- Validación de datos con class-validator (unitId, status, timestamp).
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- Manejo de errores y excepciones con HttpExceptionFilter.
 
-## Project setup
+- Idempotencia en creación de checkpoints mediante header Idempotency-Key.
 
-```bash
-$ npm install
+- Soporte para repositorios intercambiables (ej. InMemory → PostgreSQL con TypeORM/Prisma).
+
+- Listados seguros con manejo de errores claros (404 si no existen checkpoints).
+
+## Endpoints
+
+Crear checkpoint
+
+```POST /checkpoints
+Headers:
+  Idempotency-Key: <uuid>
+Body:
+{
+  "unitId": "c5b8a12d-1234-4f3c-9f7a-8a2f3e9b2d6f",
+  "status": "IN_TRANSIT",
+  "timestamp": "2025-09-02T12:30:00Z"
+}
 ```
 
-## Compile and run the project
+- Respuesta 201 Created con el checkpoint creado.
 
-```bash
-# development
-$ npm run start
+- Respuesta 409 Conflict si se reutiliza la misma Idempotency-Key
 
-# watch mode
-$ npm run start:dev
+Obtener historial por unidad
 
-# production mode
-$ npm run start:prod
+```
+GET /checkpoints/:unitId
 ```
 
-## Run tests
+- Respuesta 200 OK con la lista de checkpoints asociados.
+- Respuesta 404 Not Found si no existen checkpoints para esa unidad.
+
+## Requisitos
+
+- Node.js v18+
+- NestJS v10+
+- Dependencias:
+- @nestjs/common
+- @nestjs/core
+- class-validator
+- class-transformer
+
+### Instalación
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm install
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Ejecutar en modo desarrollo:
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npm run start:dev
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+**Principios aplicados**
 
-## Resources
+* SOLID: SRP (casos de uso aislados), DIP (interfaces en dominio, inyección de dependencias).
 
-Check out a few resources that may come in handy when working with NestJS:
+* Clean Architecture: dominio puro sin dependencias de framework, infraestructura reemplazable.
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+* Clean Code: nombres claros, validación estricta, DTOs bien definidos.
 
-## Support
+* Idempotencia y seguridad: evita duplicados y entradas inválidas.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+**Próximos pasos**
 
-## Stay in touch
+* Integrar base de datos real (PostgreSQL/MySQL/MongoDB).
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+* Implementar transacciones con TypeORM/Prisma en persistencia.
 
-## License
+* Añadir paginación y filtros en los listados.
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+* Autenticación y autorización con JWT/OAuth2.
